@@ -1,0 +1,433 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        250
+      ],
+      "id": "f63e803c-1362-44db-a515-93fb815b526f",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1N1UWI6FO_6X4lw-cYf_C0LHfZyqEjEP7",
+          "mode": "list",
+          "cachedResultName": "MA_List - Sheet1 (3).csv",
+          "cachedResultUrl": "https://drive.google.com/file/d/1N1UWI6FO_6X4lw-cYf_C0LHfZyqEjEP7/view?usp=drivesdk"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        220,
+        250
+      ],
+      "id": "f0ddd3df-28a3-4ebe-88c1-d517f6dce58a",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "XfdpwWRYVnfrPRjC",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        660,
+        250
+      ],
+      "id": "5068b781-aca0-4099-93f7-e47752ea7d75",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        440,
+        250
+      ],
+      "id": "291d7413-f67e-41bb-ae87-9f5d98e07bb7",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1q7nw2soeA3VHYtOVl2oD6F3-TmaqYeJo",
+          "mode": "list",
+          "cachedResultName": "All.csv",
+          "cachedResultUrl": "https://drive.google.com/file/d/1q7nw2soeA3VHYtOVl2oD6F3-TmaqYeJo/view?usp=drivesdk"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1256,
+        0
+      ],
+      "id": "0437ce8b-777c-42be-be8d-075c814ff7e9",
+      "name": "Google Drive1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "XfdpwWRYVnfrPRjC",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        1476,
+        0
+      ],
+      "id": "6969c87e-901d-420d-80ff-f3a7619f233e",
+      "name": "Extract from File1"
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.data }}",
+        "attributes": {
+          "attributes": [
+            {
+              "name": "title",
+              "description": "Description: A brief headline or summary of the M&A transaction. Example: TREホールディングス、木材加工・販売の泉山林業を子会社化",
+              "required": true
+            },
+            {
+              "name": "Buyer",
+              "description": "Description: The acquiring company or investor making the purchase. Example: TREホールディングス",
+              "required": true
+            },
+            {
+              "name": "target_company_business",
+              "description": "Description: The company, subsidiary, or business being acquired. Example: 泉山林業",
+              "required": true
+            },
+            {
+              "name": "seller",
+              "description": "Description: The entity selling the company or business. Example: 個人株主2人",
+              "required": true
+            },
+            {
+              "name": "date",
+              "description": "Description: The announcement or closing date of the M&A transaction. Example: 2024-01-25",
+              "required": true
+            },
+            {
+              "name": "transaction_amount",
+              "description": "Description: The monetary value of the transaction. Write (非公表) is not specified. Example: 525万円",
+              "required": true
+            },
+            {
+              "name": "scheme",
+              "description": "Description: The structure of the deal (e.g., share acquisition, asset transfer). Example:  株式譲渡",
+              "required": true
+            },
+            {
+              "name": "industry_of_target_company_business",
+              "description": "Description: The industry category of the overall M&A deal, often the buyer's or the broader sector. Example:  林業",
+              "required": true
+            },
+            {
+              "name": "details",
+              "description": "Description: Additional relevant information or strategic rationale. Example: TREホールディングスは子会社のタケエイを通じて、泉山林業の全株式を取得し子会社化。林業に熟練した人材の確保と木質バイオマス発電事業の安定的な燃料材調達を見込む。",
+              "required": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1,
+      "position": [
+        880,
+        250
+      ],
+      "id": "faee4193-cb76-440c-b267-47eb401f1a26",
+      "name": "Information Extractor"
+    },
+    {
+      "parameters": {
+        "model": "llama3.3:latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmOllama",
+      "typeVersion": 1,
+      "position": [
+        968,
+        470
+      ],
+      "id": "b3718c9b-d149-41c4-bd92-c4cb7a402d0c",
+      "name": "Ollama Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "0QfIQgsz8CKRRaT0",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1256,
+        250
+      ],
+      "id": "1f826341-b3c0-4bc1-a698-ed946f3cf472",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        1476,
+        250
+      ],
+      "id": "4c208058-71be-4e78-ae9b-a1753d2eaac9",
+      "name": "Extract from File2"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        1696,
+        125
+      ],
+      "id": "05bbc35f-7b7b-4771-aa3c-0aaad45d5f30",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "fileId": {
+          "__rl": true,
+          "value": "1q7nw2soeA3VHYtOVl2oD6F3-TmaqYeJo",
+          "mode": "list",
+          "cachedResultName": "All.csv",
+          "cachedResultUrl": "https://drive.google.com/file/d/1q7nw2soeA3VHYtOVl2oD6F3-TmaqYeJo/view?usp=drivesdk"
+        },
+        "changeFileContent": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2136,
+        250
+      ],
+      "id": "8f5cef38-1688-41c7-80b4-0390986c899e",
+      "name": "Google Drive2",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "XfdpwWRYVnfrPRjC",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1916,
+        125
+      ],
+      "id": "5ee704bd-913a-40b0-8fc8-1c9999d8d900",
+      "name": "Convert to File1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Information Extractor",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Drive1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive1": {
+      "main": [
+        [
+          {
+            "node": "Extract from File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Information Extractor": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Extract from File2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File2": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Convert to File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File1": {
+      "main": [
+        [
+          {
+            "node": "Google Drive2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "51ec2875-b8f2-47e3-a533-0f91419aa957",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "fe97746e52647fe46ef8074df6977c0f9e6f62bff7986bca635c1ec35fc387e9"
+  },
+  "id": "uSATx8BjUXyyRh7j",
+  "tags": []
+}
